@@ -36,6 +36,14 @@
 #define TWELFTH_RADIAN 0.52359878
 #define RIGHT_ANGLE_RADIAN 1.5707963
 
+/**
+ * Defines clock update interval:
+ * 
+ * 1:    smooth pointer movement
+ * 1000: simulate a ticking pointer like on quartz clocks every second
+ */
+#define UPDATE_INTERVAL 25
+
 
 void draw_round_clock_mark(int16_t innerR1, int16_t outerR1, int16_t innerR2, int16_t outerR2, int16_t innerR3, int16_t outerR3);
 

@@ -9,7 +9,7 @@ Arduino_GC9A01 *gfx = new Arduino_GC9A01(bus, TFT_RST, 0 /* rotation */, true /*
 
 static uint8_t conv2d(const char *p)
 {
-    uint8_t v = 0;
+    // uint8_t v = 0;
     return (10 * (*p - '0')) + (*++p - '0');
 }
 
@@ -18,13 +18,13 @@ static int16_t hHandLen, mHandLen, sHandLen, markLen;
 static float sdeg, mdeg, hdeg;
 static int16_t osx = 0, osy = 0, omx = 0, omy = 0, ohx = 0, ohy = 0; // Saved H, M, S x & y coords
 static int16_t nsx, nsy, nmx, nmy, nhx, nhy;                         // H, M, S x & y coords
-static int16_t xMin, yMin, xMax, yMax;                               // redraw range
+// static int16_t xMin, yMin, xMax, yMax;                               // redraw range
 static int16_t hh, mm, ss;
 static unsigned long targetTime; // next action time
 
 static int16_t *cached_points;
-static uint16_t cached_points_idx = 0;
-static int16_t *last_cached_point;
+// static uint16_t cached_points_idx = 0;
+// static int16_t *last_cached_point;
 
 
 void draw_round_clock_mark(int16_t innerR1, int16_t outerR1, int16_t innerR2, int16_t outerR2, int16_t innerR3, int16_t outerR3)
@@ -325,6 +325,6 @@ void draw_clock(unsigned long cur_millis) {
     osx = nsx;
     osy = nsy;
 
-    delay(1);
+    delay(UPDATE_INTERVAL);
   }
 }
