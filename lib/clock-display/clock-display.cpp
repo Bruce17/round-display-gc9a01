@@ -240,7 +240,7 @@ void redraw_hands_cached_draw_and_erase()
     gfx->endWrite();
 }
 
-void prepare_clock() {
+void prepare_display() {
   gfx->begin();
   gfx->fillScreen(BACKGROUND);
 
@@ -280,28 +280,11 @@ void prepare_clock() {
   targetTime = ((millis() / 1000) + 1) * 1000;
 }
 
-void draw_clock(unsigned long cur_millis) {
-  if (cur_millis >= targetTime) {
-    targetTime += 1000;
-    ss++; // Advance second
-
-    if (ss == 60) {
-      ss = 0;
-      mm++; // Advance minute
-
-      if (mm > 59) {
-        mm = 0;
-        hh++; // Advance hour
-
-        if (hh > 23) {
-          hh = 0;
-        }
-      }
-    }
-  }
-
+void recalc_and_draw_clock() {
   // Pre-compute hand degrees, x & y coords for a fast screen update
-  sdeg = SIXTIETH_RADIAN * ((0.001 * (cur_millis % 1000)) + ss); // 0-59 (includes millis)
+  // TODO: check if this computation is still needed
+  // sdeg = SIXTIETH_RADIAN * ((0.001 * (cur_millis % 1000)) + ss); // 0-59 (includes millis)
+  sdeg = SIXTIETH_RADIAN * ss;
   nsx = cos(sdeg - RIGHT_ANGLE_RADIAN) * sHandLen + center;
   nsy = sin(sdeg - RIGHT_ANGLE_RADIAN) * sHandLen + center;
 
@@ -327,4 +310,35 @@ void draw_clock(unsigned long cur_millis) {
 
     delay(UPDATE_INTERVAL);
   }
+}
+
+void draw_clock(unsigned long cur_millis) {
+  if (cur_millis >= targetTime) {
+    targetTime += 1000;
+    ss++; // Advance second
+
+    if (ss == 60) {
+      ss = 0;
+      mm++; // Advance minute
+
+      if (mm > 59) {
+        mm = 0;
+        hh++; // Advance hour
+
+        if (hh > 23) {
+          hh = 0;
+        }
+      }
+    }
+  }
+
+  recalc_and_draw_clock();
+}
+
+void draw_clock_tm(struct tm* info) {
+  ss = info->tm_sec;
+  mm = info->tm_min;
+  hh = info->tm_hour;
+
+  recalc_and_draw_clock();
 }

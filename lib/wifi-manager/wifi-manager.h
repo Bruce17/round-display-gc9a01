@@ -27,6 +27,15 @@
     // Use LittleFS
     #include "FS.h"
 
+    /**
+     * Hack to avoid error:
+     * 
+     * .pio\libdeps\esp32dev\LittleFS_esp32\src\esp_littlefs.c:208:9: error: unknown field 'utime_p' specified in initializer
+     *    .utime_p     = &vfs_littlefs_utime,
+     * 
+     * Open ".pio\libdeps\esp32dev\LittleFS_esp32\src\esp_littlefs.c:15" and uncomment "#define CONFIG_LITTLEFS_FOR_IDF_3_2"
+     */
+
     // The library will be depreciated after being merged to future major Arduino esp32 core release 2.x
     // At that time, just remove this library inclusion
     #include <LITTLEFS.h>             // https://github.com/lorol/LITTLEFS
@@ -128,7 +137,7 @@
   #define ESP8266_DRD_USE_RTC     false
 #endif
 
-#define DOUBLERESETDETECTOR_DEBUG       true  //false
+// #define DOUBLERESETDETECTOR_DEBUG       true  //false
 
 
 // Number of seconds after reset during which a

@@ -55,6 +55,9 @@ void draw_and_erase_cached_line(int16_t x0, int16_t y0, int16_t x1, int16_t y1, 
 
 void redraw_hands_cached_draw_and_erase();
 
-void prepare_clock();
+void prepare_display();
 
 void draw_clock(unsigned long cur_millis);
+void draw_clock_tm(struct tm* info);
+
+void recalc_and_draw_clock();
