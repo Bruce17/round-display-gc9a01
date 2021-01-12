@@ -66,69 +66,6 @@ void draw_round_clock_mark(int16_t innerR1, int16_t outerR1, int16_t innerR2, in
   }
 }
 
-void draw_square_clock_mark(int16_t innerR1, int16_t outerR1, int16_t innerR2, int16_t outerR2, int16_t innerR3, int16_t outerR3)
-{
-    float x, y;
-    int16_t x0, x1, y0, y1, innerR, outerR;
-    uint16_t c;
-
-    for (uint8_t i = 0; i < 60; i++)
-    {
-        if ((i % 15) == 0)
-        {
-            innerR = innerR1;
-            outerR = outerR1;
-            c = MARK_COLOR;
-        }
-        else if ((i % 5) == 0)
-        {
-            innerR = innerR2;
-            outerR = outerR2;
-            c = MARK_COLOR;
-        }
-        else
-        {
-            innerR = innerR3;
-            outerR = outerR3;
-            c = SUBMARK_COLOR;
-        }
-
-        if ((i >= 53) || (i < 8))
-        {
-            x = tan(SIXTIETH_RADIAN * i);
-            x0 = center + (x * outerR);
-            y0 = center + (1 - outerR);
-            x1 = center + (x * innerR);
-            y1 = center + (1 - innerR);
-        }
-        else if (i < 23)
-        {
-            y = tan((SIXTIETH_RADIAN * i) - RIGHT_ANGLE_RADIAN);
-            x0 = center + (outerR);
-            y0 = center + (y * outerR);
-            x1 = center + (innerR);
-            y1 = center + (y * innerR);
-        }
-        else if (i < 38)
-        {
-            x = tan(SIXTIETH_RADIAN * i);
-            x0 = center - (x * outerR);
-            y0 = center + (outerR);
-            x1 = center - (x * innerR);
-            y1 = center + (innerR);
-        }
-        else if (i < 53)
-        {
-            y = tan((SIXTIETH_RADIAN * i) - RIGHT_ANGLE_RADIAN);
-            x0 = center + (1 - outerR);
-            y0 = center - (y * outerR);
-            x1 = center + (1 - innerR);
-            y1 = center - (y * innerR);
-        }
-        gfx->drawLine(x0, y0, x1, y1, c);
-    }
-}
-
 void write_cache_pixel(int16_t x, int16_t y, int16_t color, bool cross_check_second, bool cross_check_hour)
 {
     int16_t *cache = cached_points;
