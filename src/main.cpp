@@ -5,16 +5,16 @@
  */
 
 #include "general-inc.h"
-#include "clock-display.h"
+// #include "clock-display.h"
+#include "gauge-display.h"
 #include "wifi-manager.h"
 #include "time.h"
-
 
 const char* ntpServer = "de.pool.ntp.org";
 const long  gmtOffset_sec = 3600;
 const int   daylightOffset_sec = 3600;
 
-
+/*
 void printLocalTime() {
   struct tm timeinfo;
 
@@ -53,7 +53,7 @@ void drawClockWithCurrentTime() {
 
   draw_clock_tm(&timeinfo);
 }
-
+*/
 
 
 void setup(void) {
@@ -62,7 +62,7 @@ void setup(void) {
 #endif
 
   prepare_wifi();
-  prepare_display();
+  // prepare_display();
 
   // If wifi is not connected, restart
   if (WiFi.status() == WL_CONNECT_FAILED) {
@@ -72,18 +72,27 @@ void setup(void) {
     esp_restart();
   }
 
-  // Get time from NTP server
-  configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
-#ifdef DEBUG
-  printLocalTime();
-#endif
+//   // Get time from NTP server
+//   configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
+// #ifdef DEBUG
+//   printLocalTime();
+// #endif
+
+  /*** gauge example ***/
+  prepare_gauge();
 }
 
 void loop() {
   wifi_loop();
 
+  /*** clock example ***/
+
   // Update clock with time from NTP
-  if (millis() % 1000 == 0) {
-    drawClockWithCurrentTime();
+  // if (millis() % 1000 == 0) {
+  //   drawClockWithCurrentTime();
+  // }
+
+  if (millis() % 60000 == 0) {
+    draw_gauge();
   }
 }
