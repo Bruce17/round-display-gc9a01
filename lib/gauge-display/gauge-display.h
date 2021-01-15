@@ -35,10 +35,10 @@
 #define MAX_ANGLE     405.0
 
 // Define color range for gauge
-#define COLOR_RANGE_SIZE    3
+#define COLOR_RANGE_SIZE    4
 const float color_range[2][COLOR_RANGE_SIZE] = {
-  {RANGE_MIN, 950.0, 1250.0},
-  {GREEN, ORANGE, RED}
+  {0.0,   RANGE_MIN, 950.0,  1250.0 },
+  {GREEN, GREEN,     ORANGE, RED    }
 };
 
 #define NEEDLE_LINE       1

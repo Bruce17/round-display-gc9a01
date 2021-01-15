@@ -161,12 +161,7 @@ uint16_t color_from_range(int16_t val) {
   uint16_t color = MARK_COLOR;
 
   for (int8_t i = 0; i < COLOR_RANGE_SIZE; i++) {
-    if (val <= color_range[0][i]) {
-      color = color_range[1][i];
-      break;
-    }
-
-    if (i + 1 == COLOR_RANGE_SIZE) {
+    if (val >= color_range[0][i]) {
       color = color_range[1][i];
     }
   }
