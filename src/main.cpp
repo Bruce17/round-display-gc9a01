@@ -61,16 +61,9 @@ void setup(void) {
   Serial.begin(115200);
 #endif
 
-  prepare_wifi();
-  // prepare_display();
-
-  // If wifi is not connected, restart
-  if (WiFi.status() == WL_CONNECT_FAILED) {
-  #ifdef DEBUG
-    Serial.println("No WiFi -> restart ESP");
-  #endif
-    esp_restart();
-  }
+  // FIXME: disabled only for faster gauge debugging!
+  // prepare_wifi();
+  // prepare_clock();
 
 //   // Get time from NTP server
 //   configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
@@ -83,7 +76,8 @@ void setup(void) {
 }
 
 void loop() {
-  wifi_loop();
+  // FIXME: disabled only for faster gauge debugging!
+  // wifi_loop();
 
   /*** clock example ***/
 
@@ -92,7 +86,7 @@ void loop() {
   //   drawClockWithCurrentTime();
   // }
 
-  if (millis() % 60000 == 0) {
+  if (millis() % 10000 == 0) {
     draw_gauge();
   }
 }

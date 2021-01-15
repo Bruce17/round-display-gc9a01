@@ -1,6 +1,8 @@
 #include "../../include/general-inc.h"
 #include <Arduino_GFX_Library.h>
 
+#define DEBUG_GAUGE   false
+
 /**
  * Prepare TFT display pins
  */
@@ -23,22 +25,47 @@
 #define BACKGROUND BLACK
 #define MARK_COLOR WHITE
 
-#define RANGE_MIN     400
-#define RANGE_MAX     2000
+// Defines the gauge range. This is needed to convert a gauge display value into the proper angle (see angle range [MIN_ANGLE, MAX_ANGLE]).
+// Define values as float to avoid int conversions during calculations.
+#define RANGE_MIN     400.0
+#define RANGE_MAX     2000.0
 
 // angle in degree
-#define MIN_ANGLE     -225
-#define MAX_ANGLE     45
+#define MIN_ANGLE     135.0
+#define MAX_ANGLE     405.0
 
-#define SIXTIETH_RADIAN 0.10471976
-#define RIGHT_ANGLE_RADIAN 1.5707963
+// Define color range for gauge
+#define COLOR_RANGE_SIZE    3
+const float color_range[2][COLOR_RANGE_SIZE] = {
+  {RANGE_MIN, 950.0, 1250.0},
+  {GREEN, ORANGE, RED}
+};
+
+#define NEEDLE_LINE       1
+#define NEEDLE_TRIANGLE   2
+#define GAUGE_NEEDLE      NEEDLE_TRIANGLE
+
+// Colors
+
+#define NEEDLE_COLOR      ORANGE
+
+#ifndef M_PI
+#define M_PI          3.14159265358979323846
+#endif
+
+#define RADIAN_TO_DEGREES   57.29577951308232087679   // shortend of 57.295779513082320876798154814105 = 180 / PI
+#define DEGREES_TO_RADIAN   0.01745329251994329576    // shortend of 0.01745329251994329576923690768489 = PI / 180
+
+#define degToRad(angleInDegrees) ((angleInDegrees) * DEGREES_TO_RADIAN)
+#define radToDeg(angleInRadians) ((angleInRadians) * RADIAN_TO_DEGREES)
 
 
 void prepare_gauge();
 
 void draw_gauge();
 void draw_gauge_mark();
-void draw_gauge_needle(int16_t val);
+void draw_gauge_needle(int16_t val, int16_t original_value);
+uint16_t color_from_range(int16_t val);
 
 /**
  * Convert a input value from one range into a target range in degrees and return its value.

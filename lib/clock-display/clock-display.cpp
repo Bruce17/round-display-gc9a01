@@ -177,7 +177,7 @@ void redraw_hands_cached_draw_and_erase()
     gfx->endWrite();
 }
 
-void prepare_display() {
+void prepare_clock() {
   gfx->begin();
   gfx->fillScreen(BACKGROUND);
 
